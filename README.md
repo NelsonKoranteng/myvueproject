@@ -27,3 +27,5 @@ npm run dev
 ```sh
 npm run build
 ```
+v-show when you need to toggle visibility frequently for example with the contact details.
+v-if when the element is conditional and might not appear at all.
