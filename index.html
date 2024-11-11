@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>ITEC660 Vue Practice</title>
+    <script src="https://unpkg.com/vue@3.5.12/dist/vue.global.js"></script>
+    <style>
+      body {
+        font-family: 'Helvetica Neue', sans-serif;
+        margin: 0;
+        padding: 30px;
+        background-color: #e9ecef;
+      }
+
+      .heading {
+        text-align: center;
+        font-size: 3em;
+        color: #495057;
+        margin: 30px 0;
+      }
+
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      .card {
+        border-radius: 15px;
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        flex: 0 1 calc(30% - 20px);
+        max-width: 300px;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .top {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .circle-img {
+        border-radius: 50%;
+        border: 5px solid #00b894;
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+      }
+
+      .name {
+        font-size: 1.5em;
+        color: #2d3436;
+        margin-left: 15px;
+      }
+
+      .info {
+        margin: 10px 0;
+        color: #6c757d;
+      }
+
+      .bottom {
+        margin-top: 15px;
+        text-align: center;
+      }
+
+      .bottom a {
+        color: #00b894;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #d1f2eb;
+        transition: background-color 0.3s;
+      }
+
+      .bottom a:hover {
+        background-color: #00b894;
+        color: white;
+      }
+
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .toggle-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .button {
+        padding: 10px 15px;
+        border: none;
+        background-color: #00b894;
+        color: white;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background-color: #008f73;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1 class="heading">{{ heading }}</h1>
+      
+      <!-- Toggle button to show/hide contact details -->
+      <div class="toggle-container">
+        <button class="button" @click="toggleDetails">{{ showDetails ? 'Hide All Details' : 'Show All Details' }}</button>
+      </div>
+
+      <!-- Toggle button to enable/disable email editing -->
+      <div class="toggle-container">
+        <button class="button" @click="toggleEdit">{{ isEditing ? 'Stop Editing Emails' : 'Edit Emails' }}</button>
+      </div>
+
+      <div class="card-container">
+        <div v-for="(contact, index) in contacts" :key="index" class="card">
+          <div class="top">
+            <img :src="contact.image" :alt="contact.name" class="circle-img" />
+            <p class="name">{{ contact.name }}</p>
+          </div>
+          <div class="info" v-show="showDetails">
+            <p>Phone: {{ contact.phone }}</p>
+            <p>Email: 
+              <!-- v-model for email to enable two-way data binding -->
+              <input v-if="isEditing" v-model="contact.email" />
+              <span v-else>{{ contact.email }}</span>
+            </p>
+            <p>Age: {{ contact.age }}</p>
+            
+            <!-- Conditionally display "Younger Contact" if the age is less than 18 -->
+            <p v-if="contact.age < 18" style="color: red; font-weight: bold;">Younger Contact</p>
+            
+            <button v-if="showDetails" @click="incrementAge(contact)">Birthday</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
